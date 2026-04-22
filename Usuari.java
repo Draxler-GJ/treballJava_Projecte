@@ -1,33 +1,32 @@
-import java.sql.Date;
-public class Usuari {
+package treballJava_Projecte;
 
+import java.time.LocalDate;
+
+public class Usuari {
+    
+    //Variables de instancia
     private String nom;
     private String cognoms;
     private String correu;
-    private String contraseñya;
+    private String password;
     private String poblacio;
-    private Date naixement;
-    private int id;
-    //falta el rol, no recorde com es fea un enum
+    private Rol rolsUsuari;
+    private LocalDate data;
 
-
-    //el contador deuria de tindre en conter usuaris ja creats cuant fem lo dels arxius
-    private static int contadorId = 0;
-
-    public Usuari(String nom, String cognoms, String correu, String contraseñya, String poblacio, Date naixement) {
+    //Constructor
+    public Usuari(String nom, String cognoms, String correu, String password, String poblacio, Rol rolsUsuari,
+            LocalDate data) {
         this.nom = nom;
         this.cognoms = cognoms;
         this.correu = correu;
-        this.contraseñya = contraseñya;
+        this.password = password;
         this.poblacio = poblacio;
-        this.naixement = naixement;
-
-        id = contadorId;
-        contadorId++;
+        this.rolsUsuari = rolsUsuari;
+        this.data = data;
     }
 
+    //Getters - Setters
 
-    
     public String getNom() {
         return nom;
     }
@@ -52,12 +51,12 @@ public class Usuari {
         this.correu = correu;
     }
 
-    public String getContraseñya() {
-        return contraseñya;
+    public String getPassword() {
+        return password;
     }
 
-    public void setContraseñya(String contraseñya) {
-        this.contraseñya = contraseñya;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPoblacio() {
@@ -68,21 +67,30 @@ public class Usuari {
         this.poblacio = poblacio;
     }
 
-    public Date getNaixement() {
-        return naixement;
+    public Rol getRolsUsuari() {
+        return rolsUsuari;
     }
 
-    public void setNaixement(Date naixement) {
-        this.naixement = naixement;
+    public void setRolsUsuari(Rol rolsUsuari) {
+        this.rolsUsuari = rolsUsuari;
     }
 
-    public int getId() {
-        return id;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
+   
+    //Métdodos de la clase
+    
+    // public boolean comprobarContrasenya(String contrasenya){
 
+    // }
+
+    // public void iniciSessio(){
+
+    // }
 }
