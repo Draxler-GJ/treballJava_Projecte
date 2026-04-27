@@ -14,14 +14,14 @@ public class Usuari {
     private LocalDate data;
 
     //Constructor
-    public Usuari(String nom, String cognoms, String correu, String password, String poblacio, Rol rolsUsuari,
+    public Usuari(String nom, String cognoms, String correu, String password, String poblacio,
             LocalDate data) {
         this.nom = nom;
         this.cognoms = cognoms;
         this.correu = correu;
         this.password = password;
         this.poblacio = poblacio;
-        this.rolsUsuari = rolsUsuari;
+        this.rolsUsuari = Rol.ROL_USUARI;//sols poden haber usuaris, el admin el creem amb antelacio
         this.data = data;
     }
 
