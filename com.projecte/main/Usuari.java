@@ -93,4 +93,5 @@ public class Usuari {
     // public void iniciSessio(){
 
     // }
+
 }
