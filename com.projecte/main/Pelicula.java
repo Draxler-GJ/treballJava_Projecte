@@ -7,9 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
+//import java.util.Scanner;
 
-public class LlistaPelicules implements Serializable{
+public class Pelicula implements Serializable{
     
     //Varibles de instancia
     private String nomPelicula;
@@ -17,7 +17,7 @@ public class LlistaPelicules implements Serializable{
     private String actor;
 
     //Constructor
-    public LlistaPelicules(String nomPelicula, String director, String actor) {
+    public Pelicula(String nomPelicula, String director, String actor) {
         this.nomPelicula = nomPelicula;
         this.director = director;
         this.actor = actor;
@@ -61,45 +61,37 @@ public class LlistaPelicules implements Serializable{
 
     }
 
-    public void inserirPelicules(String nomPelicula, String  director, String actor){
+    public void inserirPelicules() throws ClassNotFoundException{
 
         //Inserir pel·lícules a un fitxer binari
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../fitxers/pelicules.dat"))) {
-            ArrayList<LlistaPelicules> llistaPelicules = new ArrayList<>();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../fitxers/pelicules.txt"))) {
+            ArrayList<Pelicula> llistaPelicules = new ArrayList<>();
 
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Introdueix el nom de la pel·lícula: ");
-            nomPelicula = sc.nextLine();
-            System.out.println("Introdueix el nom del director: ");
-            director = sc.nextLine();
-            System.out.println("Introdueix el nom de l'actor: ");
-            actor = sc.nextLine();
 
-            while (sc.hasNext()) {
+            while (true) {
                 if (nomPelicula.equalsIgnoreCase("exit")) {
-                    llistaPelicules.add(new LlistaPelicules(nomPelicula, director, actor));
+                    llistaPelicules.add(new Pelicula(nomPelicula, director, actor));
                     oos.writeObject(llistaPelicules);
                     break;
                 }
             }
 
-            sc.close();
 
         } catch (IOException e) {
             System.out.println("Error en la inserció del llistat de pel·licules " + e.getMessage());
         }
 
         //Legir el llistat de pel·lícules d'un fitxer binari
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../fitxers/pelicules.dat"))) {
-            ArrayList<LlistaPelicules> llistaPelicules = (ArrayList<LlistaPelicules>)ois.readObject();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../fitxers/pelicules.txt"))) {
+            ArrayList<Pelicula> llistaPelicules = (ArrayList<Pelicula>)ois.readObject();
             
-            for (LlistaPelicules pelicula : llistaPelicules) {
+            for (Pelicula pelicula : llistaPelicules) {
                 System.out.println("Títol: " + pelicula.getNomPelicula() 
                 + "\nDirector: " + pelicula.getDirector()
                 + "\nActor: " + pelicula.getActor()
                 );
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error en la lectura del llistat de pel·licules " + e.getMessage());
         }
 

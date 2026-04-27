@@ -6,7 +6,7 @@ import Daniel.Daniel;
 
 public class ProgramaPrincipal {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException {
         /*
         falta fer la opcio de registre o login 
         de momen gastem soles objected i ya farem
@@ -20,5 +20,9 @@ public class ProgramaPrincipal {
        alejandro.mostrarAlumne();
        cesar.mostrarAlumne();
        daniel.mostrarAlumne();
+
+       Pelicula p1 = new Pelicula("Star Wars Ep VII", "JJ. Abrams", "Mark Hamill");
+
+       p1.inserirPelicules();
     }
 }
