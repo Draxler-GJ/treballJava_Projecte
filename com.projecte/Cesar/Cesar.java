@@ -1,9 +1,10 @@
 package Cesar;
 
-public class Cesar {
+public class Cesar extends main.Pelicula{
     private String nom;
 
-    public Cesar(String nom) {
+    public Cesar(String nomPelicula, String director, String actor, String nom) {
+        super(nomPelicula, director, actor);
         this.nom = nom;
     }
 

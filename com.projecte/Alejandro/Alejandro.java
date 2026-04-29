@@ -1,10 +1,12 @@
 package Alejandro;
 
-public class Alejandro {
+
+public class Alejandro extends main.Pelicula{
     
     private String nom;
 
-    public Alejandro(String nom) {
+    public Alejandro(String nomPelicula, String director, String actor, String nom) {
+        super(nomPelicula, director, actor);
         this.nom = nom;
     }
 

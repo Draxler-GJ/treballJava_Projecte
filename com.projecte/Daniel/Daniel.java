@@ -1,11 +1,12 @@
 package Daniel;
 
-public class Daniel {
+public class Daniel extends main.Pelicula{
     
     
     private String nom;
 
-    public Daniel(String nom) {
+    public Daniel(String nomPelicula, String director, String actor, String nom) {
+        super(nomPelicula, director, actor);
         this.nom = nom;
     }
 

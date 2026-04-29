@@ -19,13 +19,17 @@ public class ProgramaPrincipal {
     private static File llistes = new File("./Llistes");
 
     public static void main(String[] args) throws ClassNotFoundException {
-        Alejandro alejandro = new Alejandro("Alejandro");
-        Cesar cesar = new Cesar("Cesar");
-        Daniel daniel = new Daniel("Daniel");
 
-        alejandro.mostrarAlumne();
-        cesar.mostrarAlumne();
-        daniel.mostrarAlumne();
+        /*
+            Aquestes línies de codi seran empreades mes avant per a guardat el llistat de pelicules per cada usuari
+        */
+        // Alejandro alejandro = new Alejanalejandro.mostrarAlumne();
+        // cesar.mostrarAlumne();
+        // daniel.mostrarAlumne();dro("Alejandro");
+        // Cesar cesar = new Cesar("Cesar");
+        // Daniel daniel = new Daniel("Daniel");
+
+        // 
 
         Pelicula p1 = new Pelicula("Star Wars Ep VII", "JJ. Abrams", "Mark Hamill");
 
