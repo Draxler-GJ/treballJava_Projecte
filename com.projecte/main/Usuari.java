@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Usuari implements Serializable{
     
@@ -18,8 +19,9 @@ public class Usuari implements Serializable{
     private Rol rolsUsuari;
     private LocalDate data;
     private int id;
+    private ArrayList<Pelicula> pelicules;
 
-    private static File usuaris = new File("./Usuaris");
+    
     private static File llistes = new File("./Llistes");
     private static int idLliure = llistes.listFiles().length -1;
 
@@ -33,16 +35,8 @@ public class Usuari implements Serializable{
         this.rolsUsuari = Rol.ROL_USUARI;//sols poden haber usuaris, el admin el creem amb antelacio
         this.data = data;
         this.id = idLliure;
-        File usuari = new File(usuaris + "/" + this.nom + ".dat");
-        try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream(usuari))) {
-            ou.writeObject(this);
-            File carpetaPersonal = new File(llistes + "/" + this.id + this.correu.split("@")[0]);
-            carpetaPersonal.mkdir();
-        } catch (IOException e) {
-            System.out.println("Error creant el usuari: " + e.getMessage());
-        }
+        pelicules = new ArrayList<>();
         idLliure++;
-
     }
 
     //Getters - Setters
