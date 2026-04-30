@@ -64,7 +64,7 @@ public class Pelicula implements Serializable{
     public void inserirPelicules() throws ClassNotFoundException{
 
         //Inserir pel·lícules a un fitxer binari
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../fitxers/pelicules.txt"))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../Llistes/pelicules.txt"))) {
             ArrayList<Pelicula> llistaPelicules = new ArrayList<>();
 
 

@@ -93,7 +93,7 @@ public class ProgramaPrincipal {
                         Pelicula llistaPersonal = new Pelicula(nomPeli, director, actor);
 
                         try {
-                            // TODO: problema a la hora de cridar el metodo inserirPelicules, no se si es por el metodo o por la forma en la que lo estoy llamando, pero el caso es que no me inserta nada en el fitxer de pelicules
+                            //problema a la hora de cridar el metodo inserirPelicules, no se si es por el metodo o por la forma en la que lo estoy llamando, pero el caso es que no me inserta nada en el fitxer de pelicules
                             llistaPersonal.inserirPelicules();
                         } catch (ClassNotFoundException e) {
                             System.out.println("Error al inserir un llista de peĺ·licules: " + e.getMessage());
@@ -101,6 +101,7 @@ public class ProgramaPrincipal {
                     }
                     break;
                 default:
+                    System.out.println("Fin del programa");
                     break;
             }
 
