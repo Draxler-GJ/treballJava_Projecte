@@ -118,8 +118,14 @@ public class Usuari implements Serializable{
 
     // }
 
-    // public void iniciSessio(){
+    public boolean comprobarSessioUsuari(String correu, String contraseyna){
+        boolean esActiu = false;
 
-    // }
+        if(this.correu.equals(correu) && this.password.equals(contraseyna)){
+            esActiu = true;
+        }
+
+        return esActiu;
+    }
 
 }

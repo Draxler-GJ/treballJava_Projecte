@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ProgramaPrincipal {
@@ -39,6 +40,7 @@ public class ProgramaPrincipal {
             System.out.println("1.registre");
             System.out.println("2.inici de sesio");
             System.out.println("3.Eixir");
+            System.out.println("4.Crear llista de pel·lícules");
             int opcio = sc.nextInt();
             sc.nextLine();// buffer
             switch (opcio) {
@@ -69,6 +71,34 @@ public class ProgramaPrincipal {
                     break;
                 case 3:
                     eixir = true;
+                    break;
+
+                case 4:
+                    boolean sessioInicada = usuariActiu.comprobarSessioUsuari(usuariActiu.getCorreu(), usuariActiu.getPassword());
+
+                    if(sessioInicada == false){
+                        System.out.println("Deus inciar sessio per crear un llistat del pelicules");
+                    }else if(sessioInicada == true){
+                        System.out.println("Benvingut, " + usuariActiu.getNom());
+                        System.out.println("""
+                                Introdueix el teu llistat de pel·licules:
+                                """);
+                        Scanner sc = new Scanner(System.in);
+                        System.out.println("Nom de la pel·lícula:");
+                        String nomPeli = sc.nextLine();
+                        System.out.println("Director:");
+                        String director = sc.nextLine();
+                        System.out.println("Actor:");
+                        String actor = sc.nextLine();
+                        Pelicula llistaPersonal = new Pelicula(nomPeli, director, actor);
+
+                        try {
+                            // TODO: problema a la hora de cridar el metodo inserirPelicules, no se si es por el metodo o por la forma en la que lo estoy llamando, pero el caso es que no me inserta nada en el fitxer de pelicules
+                            llistaPersonal.inserirPelicules();
+                        } catch (ClassNotFoundException e) {
+                            System.out.println("Error al inserir un llista de peĺ·licules: " + e.getMessage());
+                        }
+                    }
                     break;
                 default:
                     break;
