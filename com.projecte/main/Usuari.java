@@ -20,10 +20,12 @@ public class Usuari implements Serializable{
     private LocalDate data;
     private int id;
     private ArrayList<Pelicula> pelicules;
+    private ArrayList<Pelicula> actors;
+    private ArrayList<Pelicula> directors;
 
     
     private static File llistes = new File("./Llistes");
-    private static int idLliure = llistes.listFiles().length -1;
+    private static int idLliure = llistes.listFiles().length;
 
     //Constructor
     public Usuari(String nom, String cognoms, String correu, String password, String poblacio, LocalDate data) {
@@ -32,7 +34,7 @@ public class Usuari implements Serializable{
         this.correu = correu;
         this.password = password;
         this.poblacio = poblacio;
-        this.rolsUsuari = Rol.ROL_USUARI;//sols poden haber usuaris, el admin el creem amb antelacio
+        this.rolsUsuari = Rol.ROL_ADMIN;//sols poden haber usuaris, el admin el creem amb antelacio
         this.data = data;
         this.id = idLliure;
         pelicules = new ArrayList<>();
@@ -107,10 +109,6 @@ public class Usuari implements Serializable{
 
    
     //Métdodos de la clase
-    
-    // public boolean comprobarContrasenya(String contrasenya){
-
-    // }
 
     public boolean comprobarSessioUsuari(String correu, String contraseyna){
         boolean esActiu = false;

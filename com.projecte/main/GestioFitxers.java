@@ -11,6 +11,7 @@ public class GestioFitxers {
 
     private static File dirUsuaris = new File("./Usuaris");
     private static File dirLlistes = new File("./Llistes");
+
     // llig tots els objectes de la carpeta Usuaris i comproba si el nom de alguno
     // coincidix en el nom introduit, si ho fa el estableix com a usuari actiu
     // probablement es pot fer de alguna manera millor, de moment funciona
@@ -42,12 +43,16 @@ public class GestioFitxers {
 
     public static void crearFitxersPersonals(Usuari u) {
         File usuari = new File(dirUsuaris + "/" + u.getNom() + ".dat");
-        try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream(usuari))) {//crear arxiu personal, no me agrada clavar-ho en el constructor caldria menejar-ho al registre
+        try (ObjectOutputStream ou = new ObjectOutputStream(new FileOutputStream(usuari))) {
             ou.writeObject(u);
             File carpetaPersonal = new File(dirLlistes + "/" + u.getId() + u.getCorreu().split("@")[0]);
             carpetaPersonal.mkdir();
-            //TODO: crear directori llistes
-            
+            File llistaPelicules = new File(carpetaPersonal + "/pelicules.llista");
+            llistaPelicules.createNewFile();
+            File llistaActors = new File(carpetaPersonal + "/actors.llista");
+            llistaActors.createNewFile();
+            File llistaDirectors = new File(carpetaPersonal + "/directors.llista");
+            llistaDirectors.createNewFile();
         } catch (IOException e) {
             System.out.println("Error creant el usuari: " + e.getMessage());
         }
