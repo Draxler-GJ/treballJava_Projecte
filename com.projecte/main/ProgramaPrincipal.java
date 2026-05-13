@@ -94,7 +94,8 @@ public class ProgramaPrincipal {
                 System.out.println("2.Afegir elements a una llista general");
                 System.out.println("3.Veure elements d' una llista personal");
                 System.out.println("4.Veure elements d' una llista general");
-                System.out.println("5.Eixir");
+                System.out.println("5. Cridar al alumne actiu");
+                System.out.println("6.Eixir");
                 opcio = sc.nextInt();
                 sc.nextLine();
                 if (opcio == 5) {
