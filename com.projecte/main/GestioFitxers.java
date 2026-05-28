@@ -103,6 +103,21 @@ public class GestioFitxers {
         }
     }
 
+    public static void escriureFitxer(String ruta, ArrayList<String> linies) {
+        try {
+            File fitxer = new File(ruta);
+            fitxer.getParentFile().mkdirs();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fitxer, false))) {
+                for (String linia : linies) {
+                    writer.write(linia);
+                    writer.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escriure al fitxer: " + e.getMessage());
+        }
+    }
+
     public static void carregarLlistesPersonals(Usuari u) {
         u.setPelicules(llegirFitxer(getRutaLlistaPersonal(u, "pelicules")));
         u.setActors(llegirFitxer(getRutaLlistaPersonal(u, "actors")));

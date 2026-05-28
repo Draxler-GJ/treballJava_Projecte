@@ -19,7 +19,7 @@ public class Usuari implements Serializable{
     private Rol rolsUsuari;
     private LocalDate data;
     private int id;
-    private ArrayList<Pelicula> pelicules;
+    private ArrayList<String> pelicules;
     private ArrayList<String> actors;
     private ArrayList<String> directors;
 
@@ -43,7 +43,7 @@ public class Usuari implements Serializable{
         this.correu = correu;
         this.password = password;
         this.poblacio = poblacio;
-        this.rolsUsuari = Rol.ROL_ADMIN;//sols poden haber usuaris, el admin el creem amb antelacio
+        this.rolsUsuari = Rol.ROL_USUARI;
         this.data = data;
         this.id = idLliure;
         this.pelicules = new ArrayList<>();
@@ -123,11 +123,11 @@ public class Usuari implements Serializable{
    
     //Métdodos de la clase
 
-    public ArrayList<Pelicula> getPelicules() {
+    public ArrayList<String> getPelicules() {
         return pelicules;
     }
 
-    public void setPelicules(ArrayList<Pelicula> personalList) {
+    public void setPelicules(ArrayList<String> personalList) {
         this.pelicules = personalList;
     }
 
@@ -164,12 +164,14 @@ public class Usuari implements Serializable{
         switch (tipusLlista) {
             case "pelicules":
 
-                ArrayList<Pelicula> pelicules = getPelicules();
+                ArrayList<String> pelicules = getPelicules();
 
-                Collections.sort(pelicules, new Comparator<Pelicula>(){
+                Collections.sort(pelicules, new Comparator<String>(){
                     @Override
-                    public int compare(Pelicula p1, Pelicula p2) {
-                        return p1.getNomPelicula().compareTo(p2.getNomPelicula());
+                    public int compare(String p1, String p2) {
+                        String titol1 = p1.split("\\|")[0].trim();
+                        String titol2 = p2.split("\\|")[0].trim();
+                        return titol1.compareToIgnoreCase(titol2);
                     }
                 });
                 

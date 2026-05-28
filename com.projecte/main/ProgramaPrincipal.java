@@ -19,19 +19,7 @@ public class ProgramaPrincipal {
 
     public static void main(String[] args) throws ClassNotFoundException {
 
-        /*
-         * Aquestes línies de codi seran empreades mes avant per a guardat el llistat de
-         * pelicules per cada usuari
-         */
-        // Alejandro alejandro = new Alejanalejandro.mostrarAlumne();
-        // cesar.mostrarAlumne();
-        // daniel.mostrarAlumne();dro("Alejandro");
-        // Cesar cesar = new Cesar("Cesar");
-        // Daniel daniel = new Daniel("Daniel");
 
-        //
-
-        //Pelicula p1 = new Pelicula("Star Wars Ep VII", "JJ. Abrams", "Mark Hamill");
         int opcio;
         boolean eixir = false;
         while (!eixir) {
@@ -60,14 +48,16 @@ public class ProgramaPrincipal {
                 System.out.println("2.Afegir elements a la llista general");
                 System.out.println("3.Veure elements de la llista personal");
                 System.out.println("4.Veure elements de la llista general");
-                System.out.println("5.Cridar al alumne actiu");
-                System.out.println("6.Ordenar llistat de pel·lícules");
-                System.out.println("7.Eixir");
+                System.out.println("5.Eliminar elements de la llista personal");
+                System.out.println("6.Eliminar elements de la llista general");
+                System.out.println("7.Cridar al alumne actiu");
+                System.out.println("8.Ordenar llistat de pel·lícules");
+                System.out.println("9.Eixir");
                 opcio = sc.nextInt();
                 sc.nextLine();
-                if (opcio == 7) {
+                if (opcio == 9) {
                     eixir = true;
-                }else if( opcio == 6){
+                } else if (opcio == 8) {
                     System.out.println("Selecciona la lista a ordenar:");
                     System.out.println("1. Llista personal de pel·lícules");
                     System.out.println("2. Llista general de pel·lícules");
@@ -86,35 +76,35 @@ public class ProgramaPrincipal {
                         System.out.println("La llista de pel·lícules està buida.");
                     } else {
                         System.out.println("Selecciona tipus d'ordenació:");
-                        System.out.println("1. Nom (alfabètic)");        // Comparable
-                        System.out.println("2. Longitud del nom");       // Comparator
-                        System.out.println("3. Director + Nom");         // Comparator multiatributo
+                        System.out.println("1. Nom (alfabètic)");
+                        System.out.println("2. Longitud del nom");
+                        System.out.println("3. Director + Nom");
                         int opcioOrdre = sc.nextInt();
                         sc.nextLine();
 
-                    switch (opcioOrdre) {
-                        case 1:
-                            // Comparable: ordenar por nombre
-                            Collections.sort(llista, (a, b) -> a.compareToIgnoreCase(b));
-                            break;
-                        case 2:
-                            // Comparator: longitud del nombre
-                            Collections.sort(llista, (a, b) -> Integer.compare(a.length(), b.length()));
-                            break;
-                        case 3:
-                            // Comparator: director + nombre
-                            Collections.sort(llista, (a, b) -> {
-                        String dirA = a.split("\\|")[1].trim();
-                        String dirB = b.split("\\|")[1].trim();
-                        int res = dirA.compareToIgnoreCase(dirB);
-                        if (res == 0) {
-                            String nomA = a.split("\\|")[0].trim();
-                            String nomB = b.split("\\|")[0].trim();
-                            return nomA.compareToIgnoreCase(nomB);
-                        }
-                        return res;
-                        });
-                    break;
+                        switch (opcioOrdre) {
+                            case 1:
+                                Collections.sort(llista, (a, b) -> a.compareToIgnoreCase(b));
+                                break;
+                            case 2:
+                                Collections.sort(llista, (a, b) -> Integer.compare(a.length(), b.length()));
+                                break;
+                            case 3:
+                                Collections.sort(llista, (a, b) -> {
+                                    String dirA = a.split("\\|")[1].trim();
+                                    String dirB = b.split("\\|")[1].trim();
+                                    int res = dirA.compareToIgnoreCase(dirB);
+                                    if (res == 0) {
+                                        String nomA = a.split("\\|")[0].trim();
+                                        String nomB = b.split("\\|")[0].trim();
+                                        return nomA.compareToIgnoreCase(nomB);
+                                    }
+                                    return res;
+                                });
+                                break;
+                            default:
+                                System.out.println("Opció d'ordenació no vàlida.");
+                                break;
                         }
 
                         System.out.println("Llista ordenada:");
@@ -124,18 +114,18 @@ public class ProgramaPrincipal {
                             i++;
                         }
                     }
-                }else {
-                    System.out.println(
-                            "Elegix el tipus de llista per a " + (opcio - 2 <= 0 ? "afegir un element" : "veure"));
+                } else if (opcio >= 1 && opcio <= 6) {
+                    System.out.println("Elegix el tipus de llista:");
                     System.out.println("1.Pelicules");
                     System.out.println("2.Actors");
                     System.out.println("3.Directors");
                     int opcio2 = sc.nextInt();
                     sc.nextLine();
                     gestioLlistes(opcio, opcio2);
-                    //si selecciones veure una llista, deuria de imprimir tots els elements de ixa llista,
-                    //si selecciones afegir deuria de demanarte el id en la llista general si es afegir a una llista personal
-                    //i dixarte crear el element si es a la general
+                } else if (opcio == 7) {
+                    System.out.println("Cridant al alumne actiu: " + usuariActiu.getNom());
+                } else {
+                    System.out.println("Opció no vàlida.");
                 }
             }
         }
@@ -158,6 +148,7 @@ public class ProgramaPrincipal {
             String pwdUs = sc.nextLine().trim();
             if (pwdUs.equals(usuariActiu.getPassword())) {
                 carregarLlistesPersonals(usuariActiu);
+                sincronitzarLlistesPersonals(usuariActiu);
                 System.out.println("Benvingut, " + usuariActiu.getNom());
                 return;
             }
@@ -232,145 +223,311 @@ public class ProgramaPrincipal {
             case 3:
                 tipusLlista = "directors";
                 break;
+            default:
+                System.out.println("Tipus de llista no vàlid.");
+                return;
         }
-        if (opcio % 2 == 0) { // opcions llista general
-            if (opcio > 3) {
-                ArrayList<String> elements = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
-                System.out.println("Elements de la llista general de " + tipusLlista + ":");
-                int contador = 0;
-                for (String element : elements) {
-                    contador++;
-                    System.out.println("- " + contador + ". " + element);
+
+        switch (opcio) {
+            case 1:
+                afegirElementPersonal(tipusLlista);
+                break;
+            case 2:
+                afegirElementGeneral(tipusLlista);
+                break;
+            case 3:
+                mostrarLlistaPersonal(tipusLlista);
+                break;
+            case 4:
+                mostrarLlistaGeneral(tipusLlista);
+                break;
+            case 5:
+                eliminarElementPersonal(tipusLlista);
+                break;
+            case 6:
+                eliminarElementGeneral(tipusLlista);
+                break;
+            default:
+                System.out.println("Opció no vàlida.");
+                break;
+        }
+    }
+
+    static void mostrarLlistaGeneral(String tipusLlista) {
+        ArrayList<String> elements = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
+        System.out.println("Elements de la llista general de " + tipusLlista + ":");
+        if (elements.isEmpty()) {
+            System.out.println("La llista general de " + tipusLlista + " està buida.");
+            return;
+        }
+        for (int i = 0; i < elements.size(); i++) {
+            System.out.println((i + 1) + ". " + elements.get(i));
+        }
+    }
+
+    static void mostrarLlistaPersonal(String tipusLlista) {
+        ArrayList<String> elements = usuariActiu.getLlista(tipusLlista);
+        if (elements == null || elements.isEmpty()) {
+            System.out.println("La teua llista personal de " + tipusLlista + " està buida.");
+            return;
+        }
+        System.out.println("Elements de la llista personal de " + tipusLlista + ":");
+        for (int i = 0; i < elements.size(); i++) {
+            System.out.println((i + 1) + ". " + elements.get(i));
+        }
+    }
+
+    static void afegirElementGeneral(String tipusLlista) {
+        String nouElement = "";
+        String directorPelicula = "";
+        String actorPelicula = "";
+        String nomBuscat = "";
+
+        switch (tipusLlista) {
+            case "pelicules":
+                System.out.println("Introdueix el títol de la pel·lícula:");
+                String titol = sc.nextLine().trim();
+                System.out.println("Introdueix el nom del director:");
+                directorPelicula = sc.nextLine().trim();
+                System.out.println("Introdueix el nom de l'actor principal:");
+                actorPelicula = sc.nextLine().trim();
+                if (titol.isEmpty() || directorPelicula.isEmpty() || actorPelicula.isEmpty()) {
+                    System.out.println("Falten dades, no s'ha afegit la pel·lícula.");
+                    return;
                 }
-                if (contador == 0) {
-                    System.out.println("La llista general de " + tipusLlista + " està buida.");
+                nouElement = titol + " | " + directorPelicula + " | " + actorPelicula;
+                nomBuscat = titol;
+                break;
+            case "actors":
+                System.out.println("Introdueix el nom de l'actor:");
+                String nomActor = sc.nextLine().trim();
+                System.out.println("Introdueix els cognoms de l'actor:");
+                String cognomsActor = sc.nextLine().trim();
+                if (nomActor.isEmpty() || cognomsActor.isEmpty()) {
+                    System.out.println("Falten dades, no s'ha afegit l'actor.");
+                    return;
                 }
-            } else {
-                String nouElement = "";
-                String directorPelicula = "";
-                String actorPelicula = "";
-                switch (tipusLlista) {
-
-                    case "pelicules":
-                        System.out.println("Introdueix el títol de la pel·lícula:");
-                        String titol = sc.nextLine().trim();
-                        System.out.println("Introdueix el nom del director:");
-                        directorPelicula = sc.nextLine().trim();
-                        System.out.println("Introdueix el nom de l'actor principal:");
-                        actorPelicula = sc.nextLine().trim();
-                        if (titol.isEmpty() || directorPelicula.isEmpty() || actorPelicula.isEmpty()) {
-                            System.out.println("Falten dades, no s'ha afegit la pel·lícula.");
-                            return;
-                        }
-                        nouElement = titol + " | " + directorPelicula + " | " + actorPelicula;
-
-
-                        break;
-
-                    case "actors":
-                        System.out.println("Introdueix el nom de l'actor:");
-                        String nomActor = sc.nextLine().trim();
-                        System.out.println("Introdueix els cognoms de l'actor:");
-                        String cognomsActor = sc.nextLine().trim();
-
-                        if (nomActor.isEmpty() || cognomsActor.isEmpty()) {
-                            System.out.println("Falten dades, no s'ha afegit l'actor.");
-                            return;
-                        }
-                        nouElement = nomActor + " | " + cognomsActor + " | "  ;
-                        break;
-
-                    case "directors":
-                        System.out.println("Introdueix el nom del director:");
-                        String nomDirector = sc.nextLine().trim();
-                        System.out.println("Introdueix els cognoms del director:");
-                        String cognomsDirector = sc.nextLine().trim();
-                        if (nomDirector.isEmpty() || cognomsDirector.isEmpty()) {
-                            return;
-                        }
-                        nouElement = nomDirector + " | " + cognomsDirector + " | ";
-                        break;
+                nouElement = nomActor + " | " + cognomsActor + " | ";
+                nomBuscat = nomActor + " " + cognomsActor;
+                break;
+            case "directors":
+                System.out.println("Introdueix el nom del director:");
+                String nomDirector = sc.nextLine().trim();
+                System.out.println("Introdueix els cognoms del director:");
+                String cognomsDirector = sc.nextLine().trim();
+                if (nomDirector.isEmpty() || cognomsDirector.isEmpty()) {
+                    System.out.println("Falten dades, no s'ha afegit el director.");
+                    return;
                 }
-                appendLiniaFitxer(getRutaLlistaGeneral(tipusLlista), nouElement);
-                if (tipusLlista.equals("pelicules")) {
-                    String[] directorParts = separarNomICognom(directorPelicula);
-                    String[] actorParts = separarNomICognom(actorPelicula);
-                    String liniaDirector = directorParts[0] + " | " + directorParts[1] + " | ";
-                    String liniaActor = actorParts[0] + " | " + actorParts[1] + " | ";
-                    ArrayList<String> directorsGeneral = llegirFitxer(getRutaLlistaGeneral("directors"));
-                    if (!directorsGeneral.contains(liniaDirector)) {
-                        appendLiniaFitxer(getRutaLlistaGeneral("directors"), liniaDirector);
-                    }
-                    ArrayList<String> actorsGeneral = llegirFitxer(getRutaLlistaGeneral("actors"));
-                    if (!actorsGeneral.contains(liniaActor)) {
-                        appendLiniaFitxer(getRutaLlistaGeneral("actors"), liniaActor);
-                    }
-                }
-                System.out.println("Element afegit a la llista general de " + tipusLlista + ".");
+                nouElement = nomDirector + " | " + cognomsDirector + " | ";
+                nomBuscat = nomDirector + " " + cognomsDirector;
+                break;
+        }
+
+        ArrayList<String> generalList = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
+        String elementTrobat = trobarElementGeneral(generalList, nomBuscat, tipusLlista);
+        if (elementTrobat != null) {
+            System.out.println("Ja existeix aquest element a la llista general:");
+            System.out.println(elementTrobat);
+            System.out.println("Operació cancel·lada. No es pot afegir un element duplicat.");
+            return;
+        }
+
+        appendLiniaFitxer(getRutaLlistaGeneral(tipusLlista), nouElement);
+        if (tipusLlista.equals("pelicules")) {
+            String[] directorParts = separarNomICognom(directorPelicula);
+            String[] actorParts = separarNomICognom(actorPelicula);
+            String liniaDirector = directorParts[0] + " | " + directorParts[1] + " | ";
+            String liniaActor = actorParts[0] + " | " + actorParts[1] + " | ";
+            ArrayList<String> directorsGeneral = llegirFitxer(getRutaLlistaGeneral("directors"));
+            if (trobarElementGeneral(directorsGeneral, directorParts[0] + " " + directorParts[1], "directors") == null) {
+                appendLiniaFitxer(getRutaLlistaGeneral("directors"), liniaDirector);
             }
-        } else { // opcions llista personal
-            if (opcio > 2) {
-                ArrayList<String> elements = usuariActiu.getLlista(tipusLlista);
-                if (elements == null) {
-                    elements = new ArrayList<>();
-                }
-                System.out.println("Elements de la llista personal de " + tipusLlista + ":");
-                int contador = 0;
-                for (String element : elements) {
-                    contador++;
-                    System.out.println("- " + contador + ". " + element);
-                }
-                if (contador == 0) {
-                    System.out.println("La teua llista personal de " + tipusLlista + " està buida.");
-                }
-            } else {
-                ArrayList<String> generalList = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
-                if (generalList.isEmpty()) {
-                    System.out.println("La llista general de " + tipusLlista + " està buida. No es pot afegir cap element personal.");
-                    return;
-                }
-                System.out.println("Selecciona l'element de la llista general per afegir-lo a la teua llista personal de " + tipusLlista + " (ID = posició + 1):");
-                int contador = 0;
-                for (String element : generalList) {
-                    contador++;
-                    System.out.println("- " + contador + ". " + element);
-                }
-                int idSeleccionat;
-                try {
-                    idSeleccionat = Integer.parseInt(sc.nextLine().trim());
-                } catch (NumberFormatException e) {
-                    System.out.println("Valor invàlid. Ha de ser un número." );
-                    return;
-                }
-                if (idSeleccionat < 1 || idSeleccionat > generalList.size()) {
-                    System.out.println("Id fora de rang. Prova una opció entre 1 i " + generalList.size() + ".");
-                    return;
-                }
-                String elementSeleccionat = generalList.get(idSeleccionat - 1);
-                ArrayList<String> personalList = usuariActiu.getLlista(tipusLlista);
-                if (personalList == null) {
-                    personalList = new ArrayList<>();
-                }
-                if (personalList.contains(elementSeleccionat)) {
-                    System.out.println("Aquest element ja existeix a la teua llista personal.");
-                    return;
-                }
-                personalList.add(elementSeleccionat);
-                switch (tipusLlista) {
-                    case "pelicules":
-                        usuariActiu.setPelicules(personalList);
-                        break;
-                    case "actors":
-                        usuariActiu.setActors(personalList);
-                        break;
-                    case "directors":
-                        usuariActiu.setDirectors(personalList);
-                        break;
-                }
-                appendLiniaFitxer(getRutaLlistaPersonal(usuariActiu, tipusLlista), elementSeleccionat);
-                System.out.println("Element afegit a la teua llista personal de " + tipusLlista + ".");
+            ArrayList<String> actorsGeneral = llegirFitxer(getRutaLlistaGeneral("actors"));
+            if (trobarElementGeneral(actorsGeneral, actorParts[0] + " " + actorParts[1], "actors") == null) {
+                appendLiniaFitxer(getRutaLlistaGeneral("actors"), liniaActor);
             }
         }
+        System.out.println("Element afegit a la llista general de " + tipusLlista + ".");
+    }
+
+    static void afegirElementPersonal(String tipusLlista) {
+        ArrayList<String> generalList = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
+        if (generalList.isEmpty()) {
+            System.out.println("La llista general de " + tipusLlista + " està buida. No es pot afegir cap element personal.");
+            return;
+        }
+        System.out.println("Selecciona l'element de la llista general per afegir-lo a la teua llista personal de " + tipusLlista + " (ID = posició + 1, 0 per cancel·lar):");
+        for (int i = 0; i < generalList.size(); i++) {
+            System.out.println((i + 1) + ". " + generalList.get(i));
+        }
+        String entrada = sc.nextLine().trim();
+        if (entrada.isEmpty() || entrada.equals("0")) {
+            System.out.println("Operació cancel·lada.");
+            return;
+        }
+        int idSeleccionat;
+        try {
+            idSeleccionat = Integer.parseInt(entrada);
+        } catch (NumberFormatException e) {
+            System.out.println("Valor invàlid. Ha de ser un número.");
+            return;
+        }
+        if (idSeleccionat < 1 || idSeleccionat > generalList.size()) {
+            System.out.println("Id fora de rang. Prova una opció entre 1 i " + generalList.size() + ".");
+            return;
+        }
+        String elementSeleccionat = generalList.get(idSeleccionat - 1);
+        ArrayList<String> personalList = usuariActiu.getLlista(tipusLlista);
+        if (personalList == null) {
+            personalList = new ArrayList<>();
+        }
+        if (personalList.contains(elementSeleccionat)) {
+            System.out.println("Aquest element ja existeix a la teua llista personal.");
+            return;
+        }
+        personalList.add(elementSeleccionat);
+        switch (tipusLlista) {
+            case "pelicules":
+                usuariActiu.setPelicules(personalList);
+                break;
+            case "actors":
+                usuariActiu.setActors(personalList);
+                break;
+            case "directors":
+                usuariActiu.setDirectors(personalList);
+                break;
+        }
+        appendLiniaFitxer(getRutaLlistaPersonal(usuariActiu, tipusLlista), elementSeleccionat);
+        System.out.println("Element afegit a la teua llista personal de " + tipusLlista + ".");
+    }
+
+    static void eliminarElementPersonal(String tipusLlista) {
+        ArrayList<String> personalList = usuariActiu.getLlista(tipusLlista);
+        if (personalList == null || personalList.isEmpty()) {
+            System.out.println("La teua llista personal de " + tipusLlista + " està buida.");
+            return;
+        }
+        System.out.println("Selecciona l'element de la teua llista personal de " + tipusLlista + " per eliminar-lo (0 per cancel·lar):");
+        for (int i = 0; i < personalList.size(); i++) {
+            System.out.println((i + 1) + ". " + personalList.get(i));
+        }
+        String entrada = sc.nextLine().trim();
+        if (entrada.isEmpty() || entrada.equals("0")) {
+            System.out.println("Operació cancel·lada.");
+            return;
+        }
+        int idSeleccionat;
+        try {
+            idSeleccionat = Integer.parseInt(entrada);
+        } catch (NumberFormatException e) {
+            System.out.println("Valor invàlid. Ha de ser un número.");
+            return;
+        }
+        if (idSeleccionat < 1 || idSeleccionat > personalList.size()) {
+            System.out.println("Id fora de rang. Prova una opció entre 1 i " + personalList.size() + ".");
+            return;
+        }
+        personalList.remove(idSeleccionat - 1);
+        switch (tipusLlista) {
+            case "pelicules":
+                usuariActiu.setPelicules(personalList);
+                break;
+            case "actors":
+                usuariActiu.setActors(personalList);
+                break;
+            case "directors":
+                usuariActiu.setDirectors(personalList);
+                break;
+        }
+        escriureFitxer(getRutaLlistaPersonal(usuariActiu, tipusLlista), personalList);
+        System.out.println("Element eliminat de la teua llista personal de " + tipusLlista + ".");
+    }
+
+    static void eliminarElementGeneral(String tipusLlista) {
+        if (usuariActiu.getRolsUsuari() != Rol.ROL_ADMIN) {
+            System.out.println("Només l'administrador pot eliminar elements de la llista general.");
+            return;
+        }
+        ArrayList<String> generalList = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
+        if (generalList.isEmpty()) {
+            System.out.println("La llista general de " + tipusLlista + " està buida.");
+            return;
+        }
+        System.out.println("Selecciona l'element de la llista general de " + tipusLlista + " per eliminar-lo (0 per cancel·lar):");
+        for (int i = 0; i < generalList.size(); i++) {
+            System.out.println((i + 1) + ". " + generalList.get(i));
+        }
+        String entrada = sc.nextLine().trim();
+        if (entrada.isEmpty() || entrada.equals("0")) {
+            System.out.println("Operació cancel·lada.");
+            return;
+        }
+        int idSeleccionat;
+        try {
+            idSeleccionat = Integer.parseInt(entrada);
+        } catch (NumberFormatException e) {
+            System.out.println("Valor invàlid. Ha de ser un número.");
+            return;
+        }
+        if (idSeleccionat < 1 || idSeleccionat > generalList.size()) {
+            System.out.println("Id fora de rang. Prova una opció entre 1 i " + generalList.size() + ".");
+            return;
+        }
+        generalList.remove(idSeleccionat - 1);
+        escriureFitxer(getRutaLlistaGeneral(tipusLlista), generalList);
+        System.out.println("Element eliminat de la llista general de " + tipusLlista + ".");
+    }
+
+    static void sincronitzarLlistesPersonals(Usuari u) {
+        String[] tipus = {"pelicules", "actors", "directors"};
+        for (String tipusLlista : tipus) {
+            ArrayList<String> generalList = llegirFitxer(getRutaLlistaGeneral(tipusLlista));
+            ArrayList<String> personalList = u.getLlista(tipusLlista);
+            if (personalList == null) {
+                personalList = new ArrayList<>();
+            }
+            ArrayList<String> aEliminar = new ArrayList<>();
+            for (String element : personalList) {
+                if (!generalList.contains(element)) {
+                    aEliminar.add(element);
+                }
+            }
+            if (!aEliminar.isEmpty()) {
+                personalList.removeAll(aEliminar);
+                switch (tipusLlista) {
+                    case "pelicules":
+                        u.setPelicules(personalList);
+                        break;
+                    case "actors":
+                        u.setActors(personalList);
+                        break;
+                    case "directors":
+                        u.setDirectors(personalList);
+                        break;
+                }
+                escriureFitxer(getRutaLlistaPersonal(u, tipusLlista), personalList);
+                System.out.println("S'han eliminat elements de la teua llista personal de " + tipusLlista + " perquè ja no existeixen a la llista general.");
+            }
+        }
+    }
+
+    static String trobarElementGeneral(ArrayList<String> elements, String valor, String tipusLlista) {
+        for (String element : elements) {
+            String comparador = "";
+            String[] parts = element.split("\\|");
+            if (tipusLlista.equals("pelicules")) {
+                comparador = parts.length > 0 ? parts[0].trim() : element.trim();
+            } else {
+                String nom = parts.length > 0 ? parts[0].trim() : "";
+                String cognoms = parts.length > 1 ? parts[1].trim() : "";
+                comparador = (nom + " " + cognoms).trim();
+            }
+            if (comparador.equalsIgnoreCase(valor.trim())) {
+                return element;
+            }
+        }
+        return null;
     }
 
     static String[] separarNomICognom(String nomComplet) {
