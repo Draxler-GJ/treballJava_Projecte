@@ -1,12 +1,10 @@
 package main;
 
-
-
 import java.io.Serializable;
 
 //import java.util.Scanner;
 
-public class Pelicula implements Serializable{
+public class Pelicula implements Serializable, Gestionable, Comparable<Pelicula>{
     
     //Varibles de instancia
     private String nomPelicula;
@@ -60,5 +58,36 @@ public class Pelicula implements Serializable{
         );
 
 
+    }
+
+    //Métodes implementats de Gestionable
+    @Override
+    public String getIdentificador() {
+        return nomPelicula;
+    }
+        
+
+    @Override
+    public String resumen() {
+        return  "La pel·lícula: " + nomPelicula;
+    }
+
+    @Override
+    public void mostrarDetalls() {
+        System.out.println("===============FITXA TÉCNICA==================");
+        System.out.println("Títol de la pel·lícula: " + nomPelicula);
+        System.out.println("==============================================");
+        System.out.println("Director del curtmetratje: " + director);
+        System.out.println("==============================================");
+        System.out.println("Actor: " + actor);
+        System.out.println("==============================================");
+    }
+
+
+    //Metodes importats de COmparable<>
+
+    @Override
+    public int compareTo(Pelicula o) {
+         return this.nomPelicula.compareToIgnoreCase(o.nomPelicula);
     }
 }

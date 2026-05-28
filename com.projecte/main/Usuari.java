@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+//import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Usuari implements Serializable{
     
@@ -16,7 +19,7 @@ public class Usuari implements Serializable{
     private Rol rolsUsuari;
     private LocalDate data;
     private int id;
-    private ArrayList<String> pelicules;
+    private ArrayList<Pelicula> pelicules;
     private ArrayList<String> actors;
     private ArrayList<String> directors;
 
@@ -120,20 +123,20 @@ public class Usuari implements Serializable{
    
     //Métdodos de la clase
 
-    public ArrayList<String> getPelicules() {
+    public ArrayList<Pelicula> getPelicules() {
         return pelicules;
     }
 
-    public void setPelicules(ArrayList<String> pelicules) {
-        this.pelicules = pelicules;
+    public void setPelicules(ArrayList<Pelicula> personalList) {
+        this.pelicules = personalList;
     }
 
     public ArrayList<String> getActors() {
         return actors;
     }
 
-    public void setActors(ArrayList<String> actors) {
-        this.actors = actors;
+    public void setActors(ArrayList<String> personalList) {
+        this.actors = personalList;
     }
 
     public ArrayList<String> getDirectors() {
@@ -160,6 +163,16 @@ public class Usuari implements Serializable{
 
         switch (tipusLlista) {
             case "pelicules":
+
+                ArrayList<Pelicula> pelicules = getPelicules();
+
+                Collections.sort(pelicules, new Comparator<Pelicula>(){
+                    @Override
+                    public int compare(Pelicula p1, Pelicula p2) {
+                        return p1.getNomPelicula().compareTo(p2.getNomPelicula());
+                    }
+                });
+                
                 return (ArrayList<T>) getPelicules();
             case "actors":
                 return (ArrayList<T>) getActors();

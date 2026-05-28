@@ -2,7 +2,7 @@ package main;
 
 import java.io.Serializable;
 
-public class Actor implements Serializable {
+public class Actor implements Serializable, Gestionable, Comparable<Actor> {
 
     private String nom;
     private String cognoms;
@@ -38,5 +38,32 @@ public class Actor implements Serializable {
             return nom;
         }
         return nom + " " + cognoms;
+    }
+
+    //Metodes implementats de la interface Gestionable 
+    @Override
+    public String getIdentificador() {
+        return nom;
+    }
+
+    @Override
+    public String resumen() {
+        return "Fitxa completa: " + nom + " " + cognoms;
+    }
+
+    @Override
+    public void mostrarDetalls() {
+        System.out.println("===============FITXA TÉCNICA==================");
+        System.out.println("Nom de l'actor/actriu: " + nom);
+        System.out.println("==============================================");
+        System.out.println("Director del curtmetratje: " + cognoms);
+        System.out.println("==============================================");
+    }
+
+    //Metodes importats de COmparable<>
+
+    @Override
+    public int compareTo(Actor o) {
+        return this.nom.compareToIgnoreCase(o.nom);
     }
 }

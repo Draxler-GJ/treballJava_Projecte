@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import static main.GestioFitxers.*;//per a no tindre que escriure GestioFitxers.metode al cridar a un metode de la classe
@@ -30,7 +31,7 @@ public class ProgramaPrincipal {
 
         //
 
-        Pelicula p1 = new Pelicula("Star Wars Ep VII", "JJ. Abrams", "Mark Hamill");
+        //Pelicula p1 = new Pelicula("Star Wars Ep VII", "JJ. Abrams", "Mark Hamill");
         int opcio;
         boolean eixir = false;
         while (!eixir) {
@@ -60,12 +61,70 @@ public class ProgramaPrincipal {
                 System.out.println("3.Veure elements de la llista personal");
                 System.out.println("4.Veure elements de la llista general");
                 System.out.println("5.Cridar al alumne actiu");
-                System.out.println("6.Eixir");
+                System.out.println("6.Ordenar llistat de pel·lícules");
+                System.out.println("7.Eixir");
                 opcio = sc.nextInt();
                 sc.nextLine();
-                if (opcio == 6) {
+                if (opcio == 7) {
                     eixir = true;
-                } else {
+                }else if( opcio == 6){
+                    System.out.println("Selecciona la lista a ordenar:");
+                    System.out.println("1. Llista personal de pel·lícules");
+                    System.out.println("2. Llista general de pel·lícules");
+                    int tipusLlista = sc.nextInt();
+                    sc.nextLine();
+
+                    ArrayList<String> llista;
+                    if (tipusLlista == 1) {
+                        llista = usuariActiu.getPelicules();
+                        if (llista == null) llista = new ArrayList<>();
+                    } else {
+                        llista = llegirFitxer(getRutaLlistaGeneral("pelicules"));
+                    }
+
+                    if (llista.isEmpty()) {
+                        System.out.println("La llista de pel·lícules està buida.");
+                    } else {
+                        System.out.println("Selecciona tipus d'ordenació:");
+                        System.out.println("1. Nom (alfabètic)");        // Comparable
+                        System.out.println("2. Longitud del nom");       // Comparator
+                        System.out.println("3. Director + Nom");         // Comparator multiatributo
+                        int opcioOrdre = sc.nextInt();
+                        sc.nextLine();
+
+                    switch (opcioOrdre) {
+                        case 1:
+                            // Comparable: ordenar por nombre
+                            Collections.sort(llista, (a, b) -> a.compareToIgnoreCase(b));
+                            break;
+                        case 2:
+                            // Comparator: longitud del nombre
+                            Collections.sort(llista, (a, b) -> Integer.compare(a.length(), b.length()));
+                            break;
+                        case 3:
+                            // Comparator: director + nombre
+                            Collections.sort(llista, (a, b) -> {
+                        String dirA = a.split("\\|")[1].trim();
+                        String dirB = b.split("\\|")[1].trim();
+                        int res = dirA.compareToIgnoreCase(dirB);
+                        if (res == 0) {
+                            String nomA = a.split("\\|")[0].trim();
+                            String nomB = b.split("\\|")[0].trim();
+                            return nomA.compareToIgnoreCase(nomB);
+                        }
+                        return res;
+                        });
+                    break;
+                        }
+
+                        System.out.println("Llista ordenada:");
+                        int i = 1;
+                        for (String peli : llista) {
+                            System.out.println(i + ". " + peli);
+                            i++;
+                        }
+                    }
+                }else {
                     System.out.println(
                             "Elegix el tipus de llista per a " + (opcio - 2 <= 0 ? "afegir un element" : "veure"));
                     System.out.println("1.Pelicules");
@@ -160,6 +219,7 @@ public class ProgramaPrincipal {
         usuariActiu = null;//el usuari actiu es posa a null per a que tinga que iniciar sessio despres de crearlo
         System.out.println("Usuari creat, inicia sesio");
     }
+
     static void gestioLlistes(int opcio, int tipus) {
         String tipusLlista = "";
         switch (tipus) {
@@ -203,6 +263,8 @@ public class ProgramaPrincipal {
                             return;
                         }
                         nouElement = titol + " | " + directorPelicula + " | " + actorPelicula;
+
+
                         break;
 
                     case "actors":
