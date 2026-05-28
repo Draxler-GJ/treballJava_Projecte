@@ -538,13 +538,13 @@ public class ProgramaPrincipal {
         if (parts.length == 1) {
             return new String[] {parts[0], ""};
         }
-        StringBuilder cognoms = new StringBuilder();
+        String cognoms = "";
         for (int i = 1; i < parts.length; i++) {
             if (i > 1) {
-                cognoms.append(" ");
+                cognoms += " ";
             }
-            cognoms.append(parts[i]);
+            cognoms += parts[i];
         }
-        return new String[] {parts[0], cognoms.toString()};
+        return new String[] {parts[0], cognoms};
     }
 }
